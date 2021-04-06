@@ -1,12 +1,13 @@
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import javax.swing.*;
 
 public class minefield extends JFrame {
 
+    private static final int tamanhoCelula = 15;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
     private static final int rowMedio = 12;
@@ -14,7 +15,6 @@ public class minefield extends JFrame {
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
     private JButton[] campo = new JButton[16 * 18];
-    private JPanel p1 = new JPanel();
 
     public minefield() {
 
@@ -38,69 +38,29 @@ public class minefield extends JFrame {
         novoJogo.add(nivelMedio);
         novoJogo.add(nivelDificil);
 
-        p1.setEnabled(true);
-
-
         nivelFacil.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
-                                             p1.setLayout(new GridLayout(rowFacil, columnFacil));
-                                             p1.setSize(800, 600);
-                                             for(int i = 0; i < rowFacil*columnFacil; i++) {
-                                                 campo[i] = new JButton();
-                                                 campo[i].setBackground(Color.lightGray);
-                                             }
-                                             for (int i = 0; i < rowFacil; i++) {
-                                                 for (int j = 0; j < columnFacil; j++) {
-                                                     p1.add(campo[columnFacil * i + j]);
-                                                 }
-                                             }
-                                             p1.setVisible(true);
-                                             p1.updateUI();
+                                             minefieldNew(rowFacil,columnFacil);
                                          }
                                      }
         );
 
         nivelMedio.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
-
-                                             p1.setLayout(new GridLayout(rowMedio, columnMedio));
-                                             p1.setSize(800, 600);
-                                             for(int i = 0; i < rowMedio*columnMedio; i++) {
-                                                 campo[i] = new JButton();
-                                                 campo[i].setBackground(Color.lightGray);
-                                             }
-                                             for (int i = 0; i < rowMedio; i++) {
-                                                 for (int j = 0; j < columnMedio; j++) {
-                                                     p1.add(campo[columnMedio * i + j]);
-                                                 }
-                                             }
-                                             p1.setVisible(true);
-                                             p1.updateUI();
+                                             minefieldClear();
+                                             minefieldNew(rowMedio,columnMedio);
                                          }
                                      }
         );
 
         nivelDificil.addActionListener(new ActionListener(){
                                            public void actionPerformed(ActionEvent e) {
-                                               p1.setLayout(new GridLayout(rowDificil, columnDificil));
-                                               p1.setSize(800, 600);
-                                               for(int i = 0; i < rowDificil*columnDificil; i++) {
-                                                   campo[i] = new JButton();
-                                                   campo[i].setBackground(Color.lightGray);
-                                               }
-                                               for (int i = 0; i < rowDificil; i++) {
-                                                   for (int j = 0; j < columnDificil; j++) {
-                                                       p1.add(campo[columnDificil * i + j]);
-                                                   }
-                                               }
-                                               p1.setVisible(true);
-                                               p1.updateUI();
+                                               minefieldClear();
+                                               minefieldNew(rowDificil,columnDificil);
                                            }
                                        }
         );
-
-        add(p1);
 
         /**
          * @param args the command line arguments
@@ -108,9 +68,27 @@ public class minefield extends JFrame {
     }
 
     public void minefieldClear(){
-        for (int i=0; i<campo.length; i++){
-            Arrays.fill(campo,null);
+        new minefield();
+    }
+
+    public void minefieldNew(int row, int column){
+        JPanel field = new JPanel();
+        field.setLayout(new GridLayout(row, column));
+        field.setSize(column*tamanhoCelula+1, row*tamanhoCelula+1);
+        field.setPreferredSize(new Dimension(column*tamanhoCelula+1, row*tamanhoCelula+1));
+        for(int i = 0; i < row*column; i++) {
+            campo[i] = new JButton();
+            campo[i].setSize(15,15);
+            campo[i].setBackground(Color.lightGray);
         }
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                field.add(campo[column * i + j]);
+            }
+        }
+        add(field);
+        field.setVisible(true);
+        field.updateUI();
     }
 
     public static void main (String[]args){
