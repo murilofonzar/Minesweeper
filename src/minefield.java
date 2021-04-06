@@ -33,9 +33,9 @@ public class minefield extends JFrame {
         fileMenu.add(historico);
         fileMenu.add(sobre);
 
-        novoJogo.add(nivelFacil);
-        novoJogo.add(nivelMedio);
-        novoJogo.add(nivelDificil);
+//        novoJogo.add(nivelFacil);
+//        novoJogo.add(nivelMedio);
+//        novoJogo.add(nivelDificil);
 
         nivelFacil.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
