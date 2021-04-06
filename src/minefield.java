@@ -1,18 +1,23 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.*;
 
-public class minefield extends JFrame {
+public class minefield extends JFrame implements ActionListener {
 
     private static final int tamanhoCelula = 15;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
+    private static final int qtdBombasDificil = 15;
     private static final int rowMedio = 12;
     private static final int columnMedio = 14;
+    private static final int qtdBombasMedio = 10;
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
-    private JButton[][] campo = new JButton[16][18];
+    private static final int qtdBombasFacil = 50;
+    private botao[][] campo = new botao[16][18];
+    Random random = new Random();
 
     public minefield() {
 
@@ -28,6 +33,7 @@ public class minefield extends JFrame {
         JMenuItem historico = new JMenuItem("Histórico");
         JMenuItem sobre = new JMenuItem("Sobre");
 
+
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
         fileMenu.add(sobre);
@@ -39,7 +45,7 @@ public class minefield extends JFrame {
         nivelFacil.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
-                                             minefieldNew(rowFacil,columnFacil);
+                                             minefieldNew(rowFacil,columnFacil, qtdBombasFacil);
                                          }
                                      }
         );
@@ -47,7 +53,7 @@ public class minefield extends JFrame {
         nivelMedio.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
-                                             minefieldNew(rowMedio,columnMedio);
+                                             minefieldNew(rowMedio,columnMedio, qtdBombasMedio);
                                          }
                                      }
         );
@@ -55,7 +61,7 @@ public class minefield extends JFrame {
         nivelDificil.addActionListener(new ActionListener(){
                                            public void actionPerformed(ActionEvent e) {
                                                minefieldClear();
-                                               minefieldNew(rowDificil,columnDificil);
+                                               minefieldNew(rowDificil,columnDificil, qtdBombasDificil);
                                            }
                                        }
         );
@@ -69,7 +75,7 @@ public class minefield extends JFrame {
         getContentPane().removeAll();
     }
 
-    public void minefieldNew(int row, int column){
+    public void minefieldNew(int row, int column, int qtdBombas){
         JPanel field = new JPanel();
         field.setLayout(new GridLayout(row, column));
         field.setSize(column*tamanhoCelula+1, row*tamanhoCelula+1);
@@ -77,11 +83,16 @@ public class minefield extends JFrame {
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                campo[i][j] = new JButton();
+                campo[i][j] = new botao(false);
                 campo[i][j].setSize(15,15);
                 campo[i][j].setBackground(Color.lightGray);
+                campo[i][j].addActionListener(this);
+                campo[i][j].setActionCommand("Campo-"+i+"-"+j);
             }
         }
+
+        gerarBombas(row, column, qtdBombas);
+
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 field.add(campo[i][j]);
@@ -101,5 +112,44 @@ public class minefield extends JFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().contains("Campo"))
+        {
+            String[] sp = e.getActionCommand().split("-");
+            int linha = Integer.parseInt(sp[1]);
+            int coluna = Integer.parseInt(sp[2]);
+
+            ehBomba(linha, coluna);
+        }
+    }
+
+    private void gerarBombas(int row, int column, int qtdBombas)
+    {
+        boolean sorteado;
+        int linhaSort, colSort;
+
+        for (int i = 0; i < qtdBombas + 1; i++)
+        {
+            do{
+                linhaSort = random.nextInt(row);
+                colSort = random.nextInt(column);
+
+                if(campo[linhaSort][colSort].getEhBomba() == true)
+                    sorteado = true;
+                else
+                    sorteado = false;
+            }while(sorteado);
+            campo[linhaSort][colSort].setEhBomba(true);
+        }
+    }
+
+    private void ehBomba(int row, int column)
+    {
+        if(campo[row][column].getEhBomba())
+        {
+            System.out.println("BOMBA");
+        }
     }
 }
