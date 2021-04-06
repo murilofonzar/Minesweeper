@@ -54,7 +54,6 @@ public class minefield extends JFrame {
 
         nivelDificil.addActionListener(new ActionListener(){
                                            public void actionPerformed(ActionEvent e) {
-                                               minefieldClear();
                                                minefieldNew(rowDificil,columnDificil);
                                            }
                                        }
