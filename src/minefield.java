@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-
 public class minefield extends JFrame {
 
     private static final int tamanhoCelula = 15;
@@ -13,7 +12,7 @@ public class minefield extends JFrame {
     private static final int columnMedio = 14;
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
-    private JButton[] campo = new JButton[16 * 18];
+    private JButton[][] campo = new JButton[16][18];
 
     public minefield() {
 
@@ -33,9 +32,9 @@ public class minefield extends JFrame {
         fileMenu.add(historico);
         fileMenu.add(sobre);
 
-//        novoJogo.add(nivelFacil);
-//        novoJogo.add(nivelMedio);
-//        novoJogo.add(nivelDificil);
+        novoJogo.add(nivelFacil);
+        novoJogo.add(nivelMedio);
+        novoJogo.add(nivelDificil);
 
         nivelFacil.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
@@ -66,19 +65,26 @@ public class minefield extends JFrame {
          */
     }
 
+    public void minefieldClear(){
+        getContentPane().removeAll();
+    }
+
     public void minefieldNew(int row, int column){
         JPanel field = new JPanel();
         field.setLayout(new GridLayout(row, column));
         field.setSize(column*tamanhoCelula+1, row*tamanhoCelula+1);
         field.setPreferredSize(new Dimension(column*tamanhoCelula+1, row*tamanhoCelula+1));
-        for(int i = 0; i < row*column; i++) {
-            campo[i] = new JButton();
-            campo[i].setSize(15,15);
-            campo[i].setBackground(Color.lightGray);
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                campo[i][j] = new JButton();
+                campo[i][j].setSize(15,15);
+                campo[i][j].setBackground(Color.lightGray);
+            }
         }
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                field.add(campo[column * i + j]);
+                field.add(campo[i][j]);
             }
         }
         add(field);
