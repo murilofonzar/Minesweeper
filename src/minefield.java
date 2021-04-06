@@ -66,10 +66,6 @@ public class minefield extends JFrame {
          */
     }
 
-    public void minefieldClear(){
-        new minefield();
-    }
-
     public void minefieldNew(int row, int column){
         JPanel field = new JPanel();
         field.setLayout(new GridLayout(row, column));
