@@ -16,6 +16,8 @@ public class minefield extends JFrame implements ActionListener {
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
     private static final int qtdBombasFacil = 50;
+    private int rows = 0;
+    private int columns = 0;
     private botao[][] campo = new botao[16][18];
     Random random = new Random();
 
@@ -32,7 +34,6 @@ public class minefield extends JFrame implements ActionListener {
         JMenuItem nivelDificil = new JMenuItem("Difícil");
         JMenuItem historico = new JMenuItem("Histórico");
         JMenuItem sobre = new JMenuItem("Sobre");
-
 
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
@@ -80,6 +81,8 @@ public class minefield extends JFrame implements ActionListener {
         field.setLayout(new GridLayout(row, column));
         field.setSize(column*tamanhoCelula+1, row*tamanhoCelula+1);
         field.setPreferredSize(new Dimension(column*tamanhoCelula+1, row*tamanhoCelula+1));
+        this.rows = row;
+        this.columns = column;
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -149,7 +152,20 @@ public class minefield extends JFrame implements ActionListener {
     {
         if(campo[row][column].getEhBomba())
         {
-            System.out.println("BOMBA");
+            MostrarBombas();
+
+        }
+    }
+
+    private void MostrarBombas()
+    {
+        for (int i = 0; i < this.rows; i++)
+        {
+            for (int j = 0; j < this.columns; j++) {
+                if (campo[i][j].getEhBomba()) {
+                    campo[i][j].setIcon(botao.imgBomba);
+                }
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class botao extends JButton {
     private boolean EhBomba;
-    private ImageIcon bomba = new ImageIcon("img/bomba.png");
+    public static ImageIcon imgBomba = new ImageIcon("img/bomba.jpg");
 
     botao(boolean ehBomba)
     {
