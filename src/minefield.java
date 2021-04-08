@@ -152,12 +152,18 @@ public class minefield extends JFrame implements ActionListener {
     {
         if(campo[row][column].getEhBomba())
         {
-            MostrarBombas();
+            mostrarBombas();
+            JOptionPane.showMessageDialog(null,"Perdeu!!");
+            //ROTINAS DE BANCO QUANDO O PLAYER PERDER
+            minefieldClear();
+        }
+        else
+        {
 
         }
     }
 
-    private void MostrarBombas()
+    private void mostrarBombas()
     {
         for (int i = 0; i < this.rows; i++)
         {
@@ -167,5 +173,10 @@ public class minefield extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    private void abrirVizinhas()
+    {
+
     }
 }
