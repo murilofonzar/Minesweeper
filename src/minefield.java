@@ -15,7 +15,7 @@ public class minefield extends JFrame implements ActionListener {
     private static final int qtdBombasMedio = 10;
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
-    private static final int qtdBombasFacil = 50;
+    private static final int qtdBombasFacil = 10;
     private int rows = 0;
     private int columns = 0;
     private botao[][] campo = new botao[16][18];
@@ -159,7 +159,7 @@ public class minefield extends JFrame implements ActionListener {
         }
         else
         {
-
+            abrirVizinhas(row, column);
         }
     }
 
@@ -167,16 +167,31 @@ public class minefield extends JFrame implements ActionListener {
     {
         for (int i = 0; i < this.rows; i++)
         {
-            for (int j = 0; j < this.columns; j++) {
-                if (campo[i][j].getEhBomba()) {
+            for (int j = 0; j < this.columns; j++)
+            {
+                if (campo[i][j].getEhBomba())
+                {
                     campo[i][j].setIcon(botao.imgBomba);
                 }
             }
         }
     }
 
-    private void abrirVizinhas()
+    private void abrirVizinhas(int row, int column)
     {
-
+        for(int i=-1 ; i<2 ; i++){
+            for(int j=-1 ; j<2 ; j++){
+                if((row + i >= 0) && (row + i < rows) && (column + j >= 0) && (column + j < columns))
+                {
+                    if(!campo[row+i][column+j].getEhBomba()){
+                        campo[row+i][column+j].setEnabled(false);
+                    }
+                    else
+                    {
+                        campo[row+i][column+j].setText("BOMBA");
+                    }
+                }
+            }
+        }
     }
 }
