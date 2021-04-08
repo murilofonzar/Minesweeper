@@ -95,7 +95,7 @@ public class minefield extends JFrame implements ActionListener {
         }
 
         gerarBombas(row, column, qtdBombas);
-
+        montarDicas();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 field.add(campo[i][j]);
@@ -104,8 +104,6 @@ public class minefield extends JFrame implements ActionListener {
         add(field);
         field.setVisible(true);
         field.updateUI();
-
-        montarDicas();
     }
 
     public static void main (String[]args){
@@ -195,16 +193,27 @@ public class minefield extends JFrame implements ActionListener {
     }
 
     private void montarDicas() {
-        for (int line = 1; line <= rows; line++){
-
-            for (int column = 1; column <= columns; column++) {
-                for (int i = -1; i <= 1; i++)
-                    for (int j = -1; j <= 1; j++)
-                        if (!campo[line][column].getEhBomba())
-                            if (campo[line + i][column + j].getEhBomba())
-                                campo[line][column].incrementaBombas();
-
-            }
-        }
+       for (int linha = 0; linha < rows; linha++)
+       {
+           for(int coluna = 0; coluna < columns; coluna++)
+           {
+               if(!campo[linha][coluna].getEhBomba())
+               {
+                   for(int i=-1 ; i<2 ; i++)
+                   {
+                       for(int j=-1 ; j<2 ; j++)
+                       {
+                           if((linha + i >= 0) && (linha + i < rows) && (coluna + j >= 0) && (coluna + j < columns))
+                           {
+                                if(campo[linha+i][coluna+j].getEhBomba())
+                                {
+                                    campo[linha][coluna].incrementaBombas();
+                                }
+                           }
+                       }
+                   }
+               }
+           }
+       }
     }
 }
