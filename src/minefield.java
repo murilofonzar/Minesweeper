@@ -105,6 +105,8 @@ public class minefield extends JFrame implements ActionListener {
         add(field);
         field.setVisible(true);
         field.updateUI();
+
+        montarDicas();
     }
 
     public static void main (String[]args){
@@ -186,12 +188,23 @@ public class minefield extends JFrame implements ActionListener {
                 {
                     if(!campo[row+i][column+j].getEhBomba()){
                         campo[row+i][column+j].setEnabled(false);
-                    }
-                    else
-                    {
-                        campo[row+i][column+j].setText("BOMBA");
+                        campo[row+i][column+j].setText(Integer.toString(campo[row+i][column+j].getQtdBombas()));
                     }
                 }
+            }
+        }
+    }
+
+    private void montarDicas() {
+        for (int line = 1; line <= rows; line++){
+
+            for (int column = 1; column <= columns; column++) {
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+                        if (!campo[line][column].getEhBomba())
+                            if (campo[line + i][column + j].getEhBomba())
+                                campo[line][column].incrementaBombas();
+
             }
         }
     }
