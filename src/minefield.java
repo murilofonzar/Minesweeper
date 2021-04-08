@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class minefield extends JFrame implements ActionListener {
 
-    private static final int tamanhoCelula = 15;
+    private static final int tamanhoCelula = 30;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
     private static final int qtdBombasDificil = 15;
@@ -46,6 +46,7 @@ public class minefield extends JFrame implements ActionListener {
         nivelFacil.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
+                                             setSize(rowFacil*tamanhoCelula+1, columnFacil*tamanhoCelula+1);
                                              minefieldNew(rowFacil,columnFacil, qtdBombasFacil);
                                          }
                                      }
@@ -54,6 +55,7 @@ public class minefield extends JFrame implements ActionListener {
         nivelMedio.addActionListener(new ActionListener(){
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
+                                             setSize(rowMedio*tamanhoCelula, columnMedio*tamanhoCelula);
                                              minefieldNew(rowMedio,columnMedio, qtdBombasMedio);
                                          }
                                      }
@@ -62,6 +64,7 @@ public class minefield extends JFrame implements ActionListener {
         nivelDificil.addActionListener(new ActionListener(){
                                            public void actionPerformed(ActionEvent e) {
                                                minefieldClear();
+                                               setSize(rowDificil*tamanhoCelula+1, columnDificil*tamanhoCelula+1);
                                                minefieldNew(rowDificil,columnDificil, qtdBombasDificil);
                                            }
                                        }
@@ -78,8 +81,7 @@ public class minefield extends JFrame implements ActionListener {
 
     public void minefieldNew(int row, int column, int qtdBombas){
         JPanel field = new JPanel();
-        field.setLayout(new GridLayout(row, column));
-        field.setSize(column*tamanhoCelula+1, row*tamanhoCelula+1);
+        field.setLayout(new GridLayout(row+2, column));
         field.setPreferredSize(new Dimension(column*tamanhoCelula+1, row*tamanhoCelula+1));
         this.rows = row;
         this.columns = column;
@@ -87,7 +89,6 @@ public class minefield extends JFrame implements ActionListener {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 campo[i][j] = new botao(false);
-                campo[i][j].setSize(15,15);
                 campo[i][j].setBackground(Color.lightGray);
                 campo[i][j].addActionListener(this);
                 campo[i][j].setActionCommand("Campo-"+i+"-"+j);
@@ -110,7 +111,7 @@ public class minefield extends JFrame implements ActionListener {
 
         minefield frame = new minefield();
         frame.setTitle("Campo Minado");
-        frame.setSize(600, 600);
+        frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
