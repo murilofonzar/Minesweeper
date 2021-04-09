@@ -184,6 +184,7 @@ public class Minesweeper extends JFrame implements ActionListener {
     }
 
     private void montarDicas() {
+<<<<<<< HEAD:src/Minesweeper.java
         for (int linha = 0; linha < rows; linha++) {
             for (int coluna = 0; coluna < columns; coluna++) {
                 if (!campo[linha][coluna].getBomb()) {
@@ -199,6 +200,30 @@ public class Minesweeper extends JFrame implements ActionListener {
                 }
             }
         }
+=======
+       for (int linha = 0; linha < rows; linha++)
+       {
+           for(int coluna = 0; coluna < columns; coluna++)
+           {
+               if(!campo[linha][coluna].getEhBomba())
+               {
+                   for(int i=-1 ; i<2 ; i++)
+                   {
+                       for(int j=-1 ; j<2 ; j++)
+                       {
+                           if((linha + i >= 0) && (linha + i < rows) && (coluna + j >= 0) && (coluna + j < columns))
+                           {
+                                if(campo[linha+i][coluna+j].getEhBomba())
+                                {
+                                    campo[linha][coluna].incrementaBombas();
+                                }
+                           }
+                       }
+                   }
+               }
+           }
+       }
+>>>>>>> marcolla:src/minefield.java
     }
 
 }
