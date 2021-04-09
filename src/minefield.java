@@ -16,6 +16,7 @@ public class minefield extends JFrame implements ActionListener {
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
     private static final int qtdBombasFacil = 10;
+    private static Informacoes telaInfo = new Informacoes();
     private int rows = 0;
     private int columns = 0;
     private botao[][] campo = new botao[16][18];
@@ -34,7 +35,15 @@ public class minefield extends JFrame implements ActionListener {
         JMenuItem nivelDificil = new JMenuItem("Difícil");
         JMenuItem historico = new JMenuItem("Histórico");
         JMenuItem sobre = new JMenuItem("Sobre");
-
+        sobre.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                telaInfo.setTitle("Sobre");
+                telaInfo.setSize(675, 700);
+                telaInfo.setLocationRelativeTo(null);
+                telaInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                telaInfo.setVisible(true);
+            }
+        });
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
         fileMenu.add(sobre);
