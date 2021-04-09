@@ -26,4 +26,30 @@ public class HistoricoJDBC {
         }
     }
 
+    public void Consultar(String Dificuldade)
+    {
+        String sql = "SELECT * FROM HISTORICO WHERE DIFICULDADE = '" + Dificuldade + "'";
+        ArrayList<Historico> historicos = new ArrayList<Historico>();
+
+        try {
+            Statement consulta = banco.getConnection().createStatement();
+            ResultSet resultado = consulta.executeQuery(sql);
+
+            while(resultado.next())
+            {
+                Historico historico = new Historico();
+
+                historico.setDataPartida(resultado.getDate("DataPartida"));
+                historico.setDuracao(resultado.getDate("Duracao"));
+                historico.setDificuldade(resultado.getString("Dificuldade"));
+
+                historicos.add(historico);
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
 }
