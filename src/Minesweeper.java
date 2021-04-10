@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class Minesweeper extends JFrame implements ActionListener {
 
+    private HistoricoPanel historicoPanel = new HistoricoPanel();
     private static final int tamanhoCelula = 50;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
@@ -37,10 +38,12 @@ public class Minesweeper extends JFrame implements ActionListener {
         JMenuItem nivelDificil = new JMenuItem("Difícil");
         JMenuItem historico = new JMenuItem("Histórico");
         JMenuItem sobre = new JMenuItem("Sobre");
+        JMenuItem sair = new JMenuItem("Sair");
 
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
         fileMenu.add(sobre);
+        fileMenu.add(sair);
 
         novoJogo.add(nivelFacil);
         novoJogo.add(nivelMedio);
@@ -67,10 +70,24 @@ public class Minesweeper extends JFrame implements ActionListener {
         nivelDificil.addActionListener(new ActionListener() {
                                            public void actionPerformed(ActionEvent e) {
                                                minefieldClear();
-                                               setSize(rowDificil * tamanhoCelula + 1, columnDificil * tamanhoCelula + 1);
+                                               setSize(rowDificil * tamanhoCelula + 5, columnDificil * tamanhoCelula + 5);
                                                minefieldNew(rowDificil, columnDificil, qtdBombasDificil);
                                            }
                                        }
+        );
+
+        sair.addActionListener(new ActionListener() {
+                                           public void actionPerformed(ActionEvent e) {
+                                               System.exit(1);
+                                           }
+                                       }
+        );
+
+        historico.addActionListener(new ActionListener() {
+                                   public void actionPerformed(ActionEvent e) {
+                                       abrirHistorico();
+                                   }
+                               }
         );
 
     }
@@ -81,7 +98,7 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     public void minefieldNew(int row, int column, int qtdBombas) {
         JPanel field = new JPanel();
-        field.setLayout(new GridLayout(row + 2, column));
+        field.setLayout(new GridLayout(row, column));
         this.rows = row;
         this.columns = column;
 
@@ -199,6 +216,14 @@ public class Minesweeper extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    private void abrirHistorico(){
+        historicoPanel.setTitle("Histórico");
+        historicoPanel.setSize(240, 450);
+        historicoPanel.setLocationRelativeTo(null);
+        historicoPanel.setVisible(true);
+        historicoPanel.setResizable(true);
     }
 
 }

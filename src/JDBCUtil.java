@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class JDBCUtil {
     private String url = "jdbc:mysql://localhost/minefield?useSSL=false";
     private String user = "root";
-    private String password = "";
+    private String password = "root";
     private Connection connection = null;
 
     public Connection getConnection() {
