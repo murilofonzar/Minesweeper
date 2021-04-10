@@ -1,10 +1,9 @@
-import javax.print.attribute.DateTimeSyntax;
 import java.util.Date;
 
 public class Historico
 {
     private Date DataPartida;
-    private Date Duracao;
+    private String Duracao;
     private String Dificuldade;
 
     public Date getDataPartida() {
@@ -15,11 +14,11 @@ public class Historico
         DataPartida = dataPartida;
     }
 
-    public Date getDuracao() {
+    public String getDuracao() {
         return Duracao;
     }
 
-    public void setDuracao(Date duracao) {
+    public void setDuracao(String duracao) {
         Duracao = duracao;
     }
 

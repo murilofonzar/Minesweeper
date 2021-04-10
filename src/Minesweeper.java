@@ -1,13 +1,17 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 public class Minesweeper extends JFrame implements ActionListener {
 
     private HistoricoPanel historicoPanel = new HistoricoPanel();
-    private static final int tamanhoCelula = 50;
+    private static Informacoes telaInfo = new Informacoes();
+    private static final int tamanhoCelula = 60;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
     private static final int qtdBombasDificil = 15;
@@ -19,8 +23,13 @@ public class Minesweeper extends JFrame implements ActionListener {
     private static final int qtdBombasFacil = 10;
     private int rows = 0;
     private int columns = 0;
+    private int contador = 0;
     private static Color backgroundFieldColor = new Color(179,177,177);
     private static Color openFieldColor = new Color(204,202,202);
+    Historico insert = new Historico();
+    HistoricoJDBC insertData = new HistoricoJDBC();
+    private Date d1;
+    private Date d2;
 
     private bSweep[][] campo = new bSweep[16][18];
     Random random = new Random();
@@ -37,8 +46,9 @@ public class Minesweeper extends JFrame implements ActionListener {
         JMenuItem nivelMedio = new JMenuItem("Médio");
         JMenuItem nivelDificil = new JMenuItem("Difícil");
         JMenuItem historico = new JMenuItem("Histórico");
-        JMenuItem sobre = new JMenuItem("Sobre");
         JMenuItem sair = new JMenuItem("Sair");
+        JMenuItem sobre = new JMenuItem("Sobre");
+
 
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
@@ -49,11 +59,23 @@ public class Minesweeper extends JFrame implements ActionListener {
         novoJogo.add(nivelMedio);
         novoJogo.add(nivelDificil);
 
+        sobre.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                telaInfo.setTitle("Sobre");
+                telaInfo.setSize(675, 600);
+                telaInfo.setLocationRelativeTo(null);
+                telaInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                telaInfo.setVisible(true);
+                telaInfo.setResizable(false);
+            }
+        });
+
         nivelFacil.addActionListener(new ActionListener() {
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
-                                             setSize(rowFacil * tamanhoCelula + 1, columnFacil * tamanhoCelula + 1);
+                                             setSize((rowFacil+2) * tamanhoCelula, columnFacil * tamanhoCelula);
                                              minefieldNew(rowFacil, columnFacil, qtdBombasFacil);
+                                             insertData("Fácil");
                                          }
                                      }
         );
@@ -61,8 +83,9 @@ public class Minesweeper extends JFrame implements ActionListener {
         nivelMedio.addActionListener(new ActionListener() {
                                          public void actionPerformed(ActionEvent e) {
                                              minefieldClear();
-                                             setSize(rowMedio * tamanhoCelula, columnMedio * tamanhoCelula);
+                                             setSize((rowMedio+2) * tamanhoCelula, columnMedio * tamanhoCelula);
                                              minefieldNew(rowMedio, columnMedio, qtdBombasMedio);
+                                             insertData("Médio");
                                          }
                                      }
         );
@@ -70,8 +93,9 @@ public class Minesweeper extends JFrame implements ActionListener {
         nivelDificil.addActionListener(new ActionListener() {
                                            public void actionPerformed(ActionEvent e) {
                                                minefieldClear();
-                                               setSize(rowDificil * tamanhoCelula + 5, columnDificil * tamanhoCelula + 5);
+                                               setSize((rowDificil+2) * tamanhoCelula, columnDificil * tamanhoCelula);
                                                minefieldNew(rowDificil, columnDificil, qtdBombasDificil);
+                                               insertData("Difícil");
                                            }
                                        }
         );
@@ -94,6 +118,7 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     public void minefieldClear() {
         getContentPane().removeAll();
+        getContentPane().repaint();
     }
 
     public void minefieldNew(int row, int column, int qtdBombas) {
@@ -167,9 +192,11 @@ public class Minesweeper extends JFrame implements ActionListener {
         if (campo[row][column].getBomb()) {
             mostrarBombas();
             JOptionPane.showMessageDialog(null, "Perdeu!");
-            //ROTINAS DE BANCO QUANDO O PLAYER PERDER
+            d2 = new Date();
+            insert.setDuracao(duracao(d1,d2));
+            insertData.Inserir(insert);
             minefieldClear();
-        } else {
+        } else if (!campo[row][column].getBomb()) {
             abrirVizinhas(row, column);
         }
     }
@@ -182,6 +209,16 @@ public class Minesweeper extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    public static String duracao(Date date1, Date date2) {
+        String duracaoJogo = "";
+        long diferenca = date2.getTime() - date1.getTime();
+        long difHora = TimeUnit.MILLISECONDS.toHours(diferenca);
+        long difSegundo = TimeUnit.MILLISECONDS.toSeconds(diferenca);
+        long difMinuto = TimeUnit.MILLISECONDS.toMinutes(diferenca);
+        duracaoJogo = difHora +":"+difMinuto +":"+difSegundo;
+        return duracaoJogo;
     }
 
     private void abrirVizinhas(int row, int column) {
@@ -224,6 +261,12 @@ public class Minesweeper extends JFrame implements ActionListener {
         historicoPanel.setLocationRelativeTo(null);
         historicoPanel.setVisible(true);
         historicoPanel.setResizable(true);
+    }
+
+    public void insertData(String dificuldade){
+        d1 = new Date();
+        insert.setDataPartida(d1);
+        insert.setDificuldade(dificuldade);
     }
 
 }
