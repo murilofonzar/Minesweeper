@@ -1,10 +1,12 @@
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 public class Minesweeper extends JFrame implements ActionListener {
@@ -29,7 +31,8 @@ public class Minesweeper extends JFrame implements ActionListener {
     Historico insert = new Historico();
     HistoricoJDBC insertData = new HistoricoJDBC();
     private Date d1;
-    private Date d2;
+    private Instant t1;
+    private Instant t2;
 
     private bSweep[][] campo = new bSweep[16][18];
     Random random = new Random();
@@ -48,7 +51,6 @@ public class Minesweeper extends JFrame implements ActionListener {
         JMenuItem historico = new JMenuItem("Histórico");
         JMenuItem sair = new JMenuItem("Sair");
         JMenuItem sobre = new JMenuItem("Sobre");
-
 
         fileMenu.add(novoJogo);
         fileMenu.add(historico);
@@ -192,8 +194,8 @@ public class Minesweeper extends JFrame implements ActionListener {
         if (campo[row][column].getBomb()) {
             mostrarBombas();
             JOptionPane.showMessageDialog(null, "Perdeu!");
-            d2 = new Date();
-            insert.setDuracao(duracao(d1,d2));
+            t2 = Instant.now();
+            insert.setDuracao(duracao(t1,t2));
             insertData.Inserir(insert);
             minefieldClear();
         } else if (!campo[row][column].getBomb()) {
@@ -210,15 +212,11 @@ public class Minesweeper extends JFrame implements ActionListener {
             }
         }
     }
-
-    public static String duracao(Date date1, Date date2) {
-        String duracaoJogo = "";
-        long diferenca = date2.getTime() - date1.getTime();
-        long difHora = TimeUnit.MILLISECONDS.toHours(diferenca);
-        long difSegundo = TimeUnit.MILLISECONDS.toSeconds(diferenca);
-        long difMinuto = TimeUnit.MILLISECONDS.toMinutes(diferenca);
-        duracaoJogo = difHora +":"+difMinuto +":"+difSegundo;
-        return duracaoJogo;
+    public static String duracao(Instant inicio, Instant fim) {
+        Duration tempo = Duration.between(inicio,fim);
+        long diferenca = tempo.toMillis();
+        String diferencaFormat = DurationFormatUtils.formatDuration(diferenca, "HH:mm:ss", true);
+        return diferencaFormat;
     }
 
     private void abrirVizinhas(int row, int column) {
@@ -257,14 +255,15 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     private void abrirHistorico(){
         historicoPanel.setTitle("Histórico");
-        historicoPanel.setSize(240, 450);
+        historicoPanel.setSize(400, 550);
         historicoPanel.setLocationRelativeTo(null);
         historicoPanel.setVisible(true);
-        historicoPanel.setResizable(true);
+        historicoPanel.setResizable(false);
     }
 
     public void insertData(String dificuldade){
         d1 = new Date();
+        t1 = Instant.now();
         insert.setDataPartida(d1);
         insert.setDificuldade(dificuldade);
     }

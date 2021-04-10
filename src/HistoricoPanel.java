@@ -13,7 +13,7 @@ public class HistoricoPanel extends JFrame {
     private JLabel nivelLabel = new JLabel("Nível:");
     private JComboBox <String> dificuldadeCombo;
     private String[] opcoes = {"Fácil", "Médio", "Difícil"};
-    private JTextArea resultado = new JTextArea(12,15);
+    private JTextArea resultado = new JTextArea(8,12);
     private JButton okButton = new JButton("OK");
     private JScrollPane resultadoPane;
 
@@ -56,11 +56,10 @@ public class HistoricoPanel extends JFrame {
             }
         });
         okButton.addActionListener(new ActionListener() {
-                                       public void actionPerformed(ActionEvent e) {
-                                           dispose();
-                                       }
-                                   }
-        );
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
 }
