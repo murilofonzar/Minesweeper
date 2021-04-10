@@ -1,25 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.concurrent.Flow;
 
 public class Informacoes extends JFrame {
     JPanel panelPrinc;
-    ImageIcon mine = new ImageIcon("img/logo.jpg");
+    ImageIcon mine = new ImageIcon("img/logo.png");
 
     public Informacoes() {
-        panelPrinc = new JPanel(new GridLayout(3,1));
+        panelPrinc = new JPanel(new FlowLayout());
 
-        JPanel panelTitulo = new JPanel(new GridLayout(2,1));
-        JLabel titulo = new JLabel("Campo Minado");
+        JLabel titulo = new JLabel("Campo Minado                                            ");
         titulo.setFont(new Font("Verdana", Font.BOLD, 25));
-        panelTitulo.add(titulo, LEFT_ALIGNMENT);
+        panelPrinc.add(titulo, FlowLayout.LEFT);
 
         JLabel img = new JLabel(mine);
-        panelTitulo.add(img);
-
-        panelPrinc.add(panelTitulo);
-
-        JPanel panelTexto = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelPrinc.add(img);
 
         JTextArea texto = new JTextArea(10, 15);
         texto.setBackground(Color.white);
@@ -39,14 +36,15 @@ public class Informacoes extends JFrame {
                 "      quadrado vazio, já que não podem conter minas;\r\n\n" +
                 "O jogo é ganho quando todos os quadrados que não têm minas são revelados.");
 
-        panelTexto.add(texto);
-
-        panelPrinc.add(panelTexto);
-
-        JPanel fechar = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        JButton btFechar = new JButton("Fechar");
-        fechar.add(btFechar);
-        panelPrinc.add(fechar);
+        panelPrinc.add(texto);
+        panelPrinc.setBackground(Color.WHITE);
         add(panelPrinc);
+        JButton btFechar = new JButton("Fechar");
+        btFechar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        add(btFechar, BorderLayout.SOUTH);
     }
 }

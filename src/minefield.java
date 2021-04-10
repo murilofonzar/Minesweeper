@@ -38,7 +38,7 @@ public class minefield extends JFrame implements ActionListener {
         sobre.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 telaInfo.setTitle("Sobre");
-                telaInfo.setSize(675, 700);
+                telaInfo.setSize(675, 600);
                 telaInfo.setLocationRelativeTo(null);
                 telaInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 telaInfo.setVisible(true);
