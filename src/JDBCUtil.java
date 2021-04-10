@@ -19,9 +19,4 @@ public class JDBCUtil {
 
         return connection;
     }
-
-    public static void main(String[] args) {
-        new JDBCUtil().getConnection();
-    }
-
 }
