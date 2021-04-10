@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class HistoricoJDBC {
@@ -12,12 +13,11 @@ public class HistoricoJDBC {
     public void Inserir(Historico hist)
     {
         String sql = "INSERT INTO HISTORICO(DATAPARTIDA, DURACAO, DIFICULDADE) VALUES(?,?,?)";
-        double diferencaSegundos = ((hist.getDataPartida().getTime() - hist.getDuracao().getTime()) / (1000)) * 60;
         try {
             PreparedStatement comando = banco.getConnection().prepareStatement(sql);
 
-            comando.setDate(1, (Date) hist.getDataPartida());
-            comando.setDouble(2, diferencaSegundos);
+            comando.setObject(1, hist.getDataPartida());
+            comando.setString(2, hist.getDuracao());
             comando.setString(3, hist.getDificuldade());
 
             comando.execute();
@@ -27,11 +27,10 @@ public class HistoricoJDBC {
         }
     }
 
-<<<<<<< HEAD
     public JTable readBD(String dificuldade){
         Vector coluna = new Vector();
         Vector data = new Vector();
-        String sql = "SELECT Datapartida AS Data, Duracao as Duracao FROM HISTORICO where dificuldade like '%"+dificuldade+"%'";
+        String sql = "SELECT Datapartida AS Data, Duracao as Duracao FROM HISTORICO where dificuldade like '%"+dificuldade+"%' Order by duracao asc";
 
         try {
             Statement comando = banco.getConnection().createStatement();
@@ -66,11 +65,7 @@ public class HistoricoJDBC {
         return null;
     }
 
-    public void dbTable() {
-
-=======
-    public void Consultar(String Dificuldade)
-    {
+    public void Consultar(String Dificuldade) {
         String sql = "SELECT * FROM HISTORICO WHERE DIFICULDADE = '" + Dificuldade + "'";
         ArrayList<Historico> historicos = new ArrayList<Historico>();
 
@@ -83,7 +78,7 @@ public class HistoricoJDBC {
                 Historico historico = new Historico();
 
                 historico.setDataPartida(resultado.getDate("DataPartida"));
-                historico.setDuracao(resultado.getDate("Duracao"));
+                historico.setDuracao(resultado.getString("Duracao"));
                 historico.setDificuldade(resultado.getString("Dificuldade"));
 
                 historicos.add(historico);
@@ -93,7 +88,6 @@ public class HistoricoJDBC {
 
             e.printStackTrace();
         }
->>>>>>> 5009d47a9726f8964244f9054288c5100d85841a
     }
 
 }
