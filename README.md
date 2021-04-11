@@ -1,5 +1,8 @@
 # Minesweeper
-by @murilofonzar and @GMarcolla
+by 
+@murilofonzar 
+and 
+@GMarcolla
 
 Praticas em Desenvolvimento de Sistemas I
 
