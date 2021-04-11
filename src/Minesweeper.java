@@ -16,10 +16,10 @@ public class Minesweeper extends JFrame implements ActionListener {
     private static final int tamanhoCelula = 60;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
-    private static final int qtdBombasDificil = 15;
+    private static final int qtdBombasDificil = 40;
     private static final int rowMedio = 12;
     private static final int columnMedio = 14;
-    private static final int qtdBombasMedio = 12;
+    private static final int qtdBombasMedio = 15;
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
     private static final int qtdBombasFacil = 10;
