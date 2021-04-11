@@ -181,7 +181,7 @@ public class Minesweeper extends JFrame implements ActionListener {
                 }
             }
         }
-        if ((count+12) >= (row*column)-qtdBombasFacil){
+        if ((count+1) >= (row*column)-qtdBombasFacil){
             JOptionPane.showMessageDialog(null,"GANHOU!");
             t2 = Instant.now();
             insert.setDuracao(duracao(t1,t2));
