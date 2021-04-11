@@ -25,7 +25,7 @@ public class Minesweeper extends JFrame implements ActionListener {
     private static final int qtdBombasFacil = 10;
     private int rows = 0;
     private int columns = 0;
-    private int contador = 0;
+    private int bombas = 0;
     private static Color backgroundFieldColor = new Color(179,177,177);
     private static Color openFieldColor = new Color(204,202,202);
     Historico insert = new Historico();
@@ -128,6 +128,7 @@ public class Minesweeper extends JFrame implements ActionListener {
         field.setLayout(new GridLayout(row, column));
         this.rows = row;
         this.columns = column;
+        this.bombas = qtdBombas;
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -181,7 +182,7 @@ public class Minesweeper extends JFrame implements ActionListener {
                 }
             }
         }
-        if ((count+1) >= (row*column)-qtdBombasFacil){
+        if ((count+1) >= (row*column)-bombas){
             JOptionPane.showMessageDialog(null,"GANHOU!");
             t2 = Instant.now();
             insert.setDuracao(duracao(t1,t2));
