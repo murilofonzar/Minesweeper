@@ -13,7 +13,7 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     private HistoricoPanel historicoPanel = new HistoricoPanel();
     private static Informacoes telaInfo = new Informacoes();
-    private static final int tamanhoCelula = 60;
+    private static final int tamanhoCelula = 45;
     private static final int rowDificil = 16;
     private static final int columnDificil = 18;
     private static final int qtdBombasDificil = 40;
