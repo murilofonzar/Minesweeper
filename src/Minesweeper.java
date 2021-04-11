@@ -19,7 +19,7 @@ public class Minesweeper extends JFrame implements ActionListener {
     private static final int qtdBombasDificil = 15;
     private static final int rowMedio = 12;
     private static final int columnMedio = 14;
-    private static final int qtdBombasMedio = 10;
+    private static final int qtdBombasMedio = 12;
     private static final int rowFacil = 8;
     private static final int columnFacil = 10;
     private static final int qtdBombasFacil = 10;
@@ -234,8 +234,8 @@ public class Minesweeper extends JFrame implements ActionListener {
     }
 
     private void abrirVizinhas(int row, int column) {
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
+        for (int i = -1; i < row-1; i++) {
+            for (int j = -1; j < column-1; j++) {
                 if ((row + i >= 0) && (row + i < rows) && (column + j >= 0) && (column + j < columns)) {
                     if (!campo[row + i][column + j].getBomb()) {
                         campo[row + i][column + j].setEnabled(false);
@@ -269,7 +269,7 @@ public class Minesweeper extends JFrame implements ActionListener {
 
     private void abrirHistorico(){
         historicoPanel.setTitle("Histórico");
-        historicoPanel.setSize(400, 550);
+        historicoPanel.setSize(400, 650);
         historicoPanel.setLocationRelativeTo(null);
         historicoPanel.setVisible(true);
         historicoPanel.setResizable(false);
