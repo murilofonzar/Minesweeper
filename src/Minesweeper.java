@@ -167,8 +167,26 @@ public class Minesweeper extends JFrame implements ActionListener {
             String[] sp = e.getActionCommand().split("-");
             int linha = Integer.parseInt(sp[1]);
             int coluna = Integer.parseInt(sp[2]);
-
             isBomba(linha, coluna);
+        }
+        vitoria(rows,columns);
+    }
+
+    private void vitoria(int row, int column) {
+        int count=0;
+        for (int i = 0;i<row;i++){
+            for (int j = 0;j<column;j++){
+                if (!campo[i][j].isEnabled()){
+                    count++;
+                }
+            }
+        }
+        if ((count+1) >= (row*column)-qtdBombasFacil){
+            JOptionPane.showMessageDialog(null,"GANHOU!");
+            t2 = Instant.now();
+            insert.setDuracao(duracao(t1,t2));
+            insertData.Inserir(insert);
+            minefieldClear();
         }
     }
 
@@ -180,7 +198,6 @@ public class Minesweeper extends JFrame implements ActionListener {
             do {
                 linhaSort = random.nextInt(row);
                 colSort = random.nextInt(column);
-
                 if (campo[linhaSort][colSort].getBomb() == true)
                     sorteado = true;
                 else
@@ -194,9 +211,6 @@ public class Minesweeper extends JFrame implements ActionListener {
         if (campo[row][column].getBomb()) {
             mostrarBombas();
             JOptionPane.showMessageDialog(null, "Perdeu!");
-            t2 = Instant.now();
-            insert.setDuracao(duracao(t1,t2));
-            insertData.Inserir(insert);
             minefieldClear();
         } else if (!campo[row][column].getBomb()) {
             abrirVizinhas(row, column);

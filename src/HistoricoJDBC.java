@@ -39,7 +39,7 @@ public class HistoricoJDBC {
             ResultSetMetaData md = rs.getMetaData();
             int colunas = md.getColumnCount();
             coluna.addElement("Data da Partida");
-            coluna.addElement("Duracao");
+            coluna.addElement("Duração");
             while(rs.next()){
                 Vector row = new Vector(colunas);
                 for (int i = 1;i<=colunas;i++){
