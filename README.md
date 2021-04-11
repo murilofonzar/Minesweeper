@@ -1,4 +1,4 @@
-# minefield
+# Minesweeper
 
 Praticas em Desenvolvimento de Sistemas I
 
